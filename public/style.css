@@ -1,0 +1,47 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.search-bar input {
+  padding: 5px;
+}
+
+.top-links a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #333;
+}
+
+.categories {
+  display: flex;
+  gap: 15px;
+  padding: 10px 30px;
+  background-color: #003b8e;
+}
+
+.categories a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.campaign {
+  padding: 30px;
+  text-align: center;
+}
+
+.books img {
+  width: 180px;
+  margin: 10px;
+}

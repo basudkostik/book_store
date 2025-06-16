@@ -1,0 +1,42 @@
+    <%- include('partials/header') %>
+
+    <!-- Üst bar -->
+    <header class="top-bar">
+        <div class="logo">
+            <img src="/images/logo.png" alt="Logo" height="50" />
+        </div>
+        <div class="search-bar">
+            <form action="/result" method="GET" onsubmit="return searchRedirect(event)">
+                <input type="text" id="searchInput" placeholder="Kitap, Elektronik, Oyuncak..." />
+                <button type="submit">ARA</button>
+            </form>
+        </div>
+        <div class="top-links">
+            <a href="/favoriler">🤍 Favori Listem</a>
+            <a href="/sepet">🛒 Sepetim</a>
+            <a href="/login">👤 Giriş Yap</a>
+        </div>
+    </header>
+
+    <!-- Kategoriler -->
+    <nav class="categories">
+        <a href="/books">KİTAP </a>
+        <a href="#">HOBİ, OYUNCAK</a>
+        <a href="#">OFİS, KIRTASİYE</a>
+        <a href="#">HEDİYE KARTI</a>
+    </nav>
+
+    <!-- Kampanya Alanı -->
+    <section class="campaign">
+        <div class="campaign-text">
+            <h2>Seçili Kitaplarda <span>Büyük İndirim!</span></h2>
+            <button class="shop-btn">Alışverişe Başla</button>
+        </div>
+        <div class="campaign-books">
+            <img src="/images/book1.jpg" alt="Kitap 1">
+            <img src="/images/book2.jpg" alt="Kitap 2">
+            <img src="/images/book3.jpg" alt="Kitap 3">
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
