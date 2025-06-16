@@ -14,7 +14,7 @@ body {
 }
 
 .search-bar input {
-  padding: 5px;
+  padding: 5px ;
 }
 
 .top-links a {
@@ -24,8 +24,7 @@ body {
 }
 
 .categories {
-  display: flex;
-  gap: 15px;
+  display: block;
   padding: 10px 30px;
   background-color: #003b8e;
 }
@@ -34,14 +33,52 @@ body {
   color: white;
   text-decoration: none;
   font-weight: bold;
+  margin-right: 30px;  /* Bağlantılar arasındaki boşluk */
 }
 
 .campaign {
-  padding: 30px;
+  padding: 50px;
   text-align: center;
 }
 
 .books img {
   width: 180px;
   margin: 10px;
+}
+
+
+
+
+
+
+
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    padding: 20px;
+    background: #f4f4f4;
+    border-right: 2px solid #ddd;
+}
+
+.books-list {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+button {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
 }

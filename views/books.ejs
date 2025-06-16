@@ -1,15 +1,58 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayfa Yapım Aşamasında</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-    <div class="construction-container">
-        <h1>🚧 Yapım Aşamasında 🚧</h1>
-        <p>Bu sayfa şu anda geliştiriliyor. Lütfen daha sonra tekrar ziyaret edin!</p>
+
+<%- include('partials/header') %>
+
+<div class="container">
+ 
+        <!-- Sol Taraf: Kategori Filtreleri -->
+       <aside class="sidebar">
+    <h2>Filtreler</h2>
+ 
+    <form action="/books" method="GET">
+     <input type="hidden" name="q" value="<%= searchTerm %>">
+
+        <!-- Tür seçimi -->
+        <label for="genre">Tür:</label>
+        <select name="genre" id="genre">
+    <option value="">Tüm Türler</option>
+    <option value="Fiction" <%= genre === 'Fiction' ? 'selected' : '' %>>Kurgu</option>
+    <option value="Fantasy" <%= genre === 'Fantasy' ? 'selected' : '' %>>Fantastik</option>
+    <option value="Dystopian" <%= genre === 'Dystopian' ? 'selected' : '' %>>Distopya</option>
+    <option value="Adventure" <%= genre === 'Adventure' ? 'selected' : '' %>>Macera</option>
+    <option value="Historical Fiction" <%= genre === 'Historical Fiction' ? 'selected' : '' %>>Tarihi Kurgu</option>
+    <option value="Romance" <%= genre === 'Romance' ? 'selected' : '' %>>Romantik</option>
+    <option value="Philosophical" <%= genre === 'Philosophical' ? 'selected' : '' %>>Felsefi</option>
+    <option value="Psychological Thriller" <%= genre === 'Psychological Thriller' ? 'selected' : '' %>>Psikolojik Gerilim</option>
+    <option value="Horror" <%= genre === 'Horror' ? 'selected' : '' %>>Korku</option>
+    <option value="Crime Fiction" <%= genre === 'Crime Fiction' ? 'selected' : '' %>>Suç Kurgu</option>
+    <option value="Psychological Fiction" <%= genre === 'Psychological Fiction' ? 'selected' : '' %>>Psikolojik Kurgu</option>
+    <option value="Young Adult" <%= genre === 'Young Adult' ? 'selected' : '' %>>Genç Yetişkin</option>
+    <option value="Biography" <%= genre === 'Biography' ? 'selected' : '' %>>Biyografi</option>
+    <option value="Memoir" <%= genre === 'Memoir' ? 'selected' : '' %>>Anı</option>
+    <option value="Self-help" <%= genre === 'Self-help' ? 'selected' : '' %>>Kişisel Gelişim</option>
+    <option value="Non-fiction" <%= genre === 'Non-fiction' ? 'selected' : '' %>>Kurgu Dışı</option>
+    <option value="Science Fiction" <%= genre === 'Science Fiction' ? 'selected' : '' %>>Bilim Kurgu</option>
+    <option value="Epic" <%= genre === 'Epic' ? 'selected' : '' %>>Destan</option>
+        </select>
+
+        <!-- Fiyat aralığı -->
+        <label for="minPrice">Min Fiyat:</label>
+        <input type="number" name="minPrice" id="minPrice" min="0" value="<%= minPrice %>">
+
+        <label for="maxPrice">Max Fiyat:</label>
+        <input type="number" name="maxPrice" id="maxPrice" min="0" value="<%= maxPrice %>">
+
+        <button type="submit">Filtrele</button>
+    </form>
+</aside>
+        <!-- Sağ Taraf: Kitap Listesi -->
+        <main class="books-list">
+            <h1>Kitap Listesi</h1>
+            <ol>
+                <% books.forEach(book => { %>
+                    <li><%= book.book_name %> - <%= book.author %> - ₺<%= book.price %></li>
+                <% }); %>
+                </ol>
+        </main>
     </div>
-</body>
-</html>
+
+<%- include('partials/footer') %>
