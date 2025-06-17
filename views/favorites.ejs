@@ -1,15 +1,24 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sayfa Yapım Aşamasında</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-    <div class="construction-container">
-        <h1>🚧 Yapım Aşamasında 🚧</h1>
-        <p>Bu sayfa şu anda geliştiriliyor. Lütfen daha sonra tekrar ziyaret edin!</p>
-    </div>
-</body>
-</html>
+<%- include('partials/header') %> 
+
+<h1>Favorilerim</h1>
+
+    <% if (books.length === 0) { %>
+        <p>Favorilerinizde kitap bulunmamaktadır.</p>
+    <% } else { %>
+        <div class="book-list">
+            <% books.forEach(book => { %>
+                <div class="book-card">
+                    <img src="/images/default_book.png" alt="<%= book.book_name %>">
+                    
+                    <p class="book-title"><%= book.book_name %> <strong><%= book.author %></strong></p>
+                    <p class="book-price"><%= book.price %> TL</p>
+                    <p class="book-genre"><%= book.genre %></p>
+                    <button class="delete-button" onclick="deleteBook('<%= book.id %>', 'favorites')">Favorilerden Sil</button>
+                    
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+
+
+<%- include('partials/footer') %>

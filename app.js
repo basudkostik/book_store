@@ -1,9 +1,15 @@
 const express = require('express');
+const sessionMiddleware = require('./middleware/sessionConfig');
 const db = require('./db');
 const path = require('path');
+const bcrypt = require('bcrypt');
+const { error } = require('console');
+
 
 const app = express();
 const PORT = 3000;
+app.use(express.json());
+app.use(sessionMiddleware);
 
 // EJS motorunu ayarla
 app.set('view engine', 'ejs');
@@ -11,10 +17,13 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Statik dosyaları sun (CSS, JS, resimler)
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
 
 // Anasayfa rotası
 app.get('/', (req, res) => {
-    res.render('index', { searchTerm: '' });  
+    res.render('index', { searchTerm: '' , 
+        userId : req.session.user_id || null  , 
+        username: req.session.username || null });  
 });
 
 
@@ -54,12 +63,138 @@ app.get("/books", (req, res) => {
                 searchTerm: q || '', // input kutusunda görünsün
                 genre: genre || '',
                 minPrice: minPrice || '',
-                maxPrice: maxPrice || ''
+                maxPrice: maxPrice || '',
+                userId: req.session.user_id || null,
+                username: req.session.username || null
             });
         }
     });
 });
 
+
+app.post('/api/cart', (req, res) => {
+    const bookId = req.body.bookId;
+    const userId = req.session.user_id;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Giriş yapmalısınız." });
+    }
+
+    if (!bookId) {
+        return res.status(400).json({ message: "Geçersiz kitap ID" });
+    }
+
+    const query = "INSERT IGNORE INTO cart (user_id, book_id) VALUES (?, ?)";
+
+    db.query(query, [userId, bookId], (err) => {
+        if (err) {
+            console.error("Veritabanı hatası:", err);
+            return res.status(500).json({ message: "Kitap sepete eklenirken hata oluştu" });
+        }
+
+        res.json({ message: "Kitap sepete başarıyla eklendi!" });
+    });
+});
+
+
+app.get('/cart', (req, res) => {
+    const userId = req.session.user_id;
+
+    if (!userId) {
+        return res.redirect('/login'); 
+    }
+
+    const query = `
+        SELECT b.id, b.book_name, b.author, b.price, b.genre 
+        FROM cart c
+        JOIN books b ON c.book_id = b.id
+        WHERE c.user_id = ?
+    `;
+
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error("Sepet verisi alınamadı:", err);
+            return res.status(500).send("Sunucu hatası");
+        }
+
+        res.render('cart', { books: results, 
+            searchTerm: '' , 
+            username: req.session.username || null,
+            userId: req.session.user_id || null });
+    });
+});
+
+app.post('/api/favorites', (req, res) => {
+    const bookId = req.body.bookId;
+    const userId = req.session.user_id;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Giriş yapmalısınız." });
+    }
+
+    if (!bookId) {
+        return res.status(400).json({ message: "Geçersiz kitap ID" });
+    }
+
+    const query = "INSERT IGNORE INTO favorites (user_id, book_id) VALUES (?, ?)";
+
+    db.query(query, [userId, bookId], (err) => {
+        if (err) {
+            console.error("Veritabanı hatası:", err);
+            return res.status(500).json({ message: "Kitap favorilere eklenirken hata oluştu" });
+        }
+
+        res.json({ message: "Kitap favorilere başarıyla eklendi!" });
+    });
+});
+
+app.get('/favorites', (req, res) => {
+    const userId = req.session.user_id;
+
+    if (!userId) {
+        return res.redirect('/login'); 
+    }
+
+    const query = 'SELECT b.id, b.book_name, b.author, b.price, b.genre FROM favorites f JOIN books b ON f.book_id = b.id WHERE f.user_id = ?';
+
+     db.query(query, [userId], (err, results) => {
+        if (err) {
+            console.error("Favori verisi alınamadı:", err);
+            return res.status(500).send("Sunucu hatası");
+        }
+
+        res.render('favorites', { books: results, 
+            searchTerm: '' , 
+            username: req.session.username || null,
+            userId: req.session.user_id || null });
+    });
+
+});
+
+
+app.delete('/cart/delete/:id', (req, res) => {
+    const bookId = req.params.id;
+
+    db.query("DELETE FROM cart WHERE book_id = ?", [bookId], (err, result) => {
+        if (err) {
+            console.error("Sepetten silme hatası:", err);
+            return res.json({ success: false });
+        }
+        res.json({ success: true });
+    });
+});
+
+app.delete('/favorites/delete/:id', (req, res) => {
+    const bookId = req.params.id;
+
+    db.query("DELETE FROM favorites WHERE book_id = ?", [bookId], (err, result) => {
+        if (err) {
+            console.error("Favorilerden silme hatası:", err);
+            return res.json({ success: false });
+        }
+        res.json({ success: true });
+    });
+});
 
 
 // Giriş yap sayfası (örnek)
@@ -67,15 +202,71 @@ app.get('/login', (req, res) => {
     res.render('login'); // views/login.ejs olmalı
 });
 
-// Sepet sayfası (örnek)
-app.get('/sepet', (req, res) => {
-    res.render('cart'); // views/cart.ejs olmalı
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.render('login', { error: "E-posta ve şifre gerekli!" });
+    }
+
+    const query = "SELECT * FROM users WHERE user_email = ?";
+
+    db.query(query, [email], async (err, results) => {
+        if (err || results.length === 0) {
+            return res.render('login', { error: "Kullanıcı bulunamadı!" });
+        }
+
+        const user = results[0];
+
+        // Şifre karşılaştırma
+        const isMatch = await bcrypt.compare(password, user.user_password); // 🔑 Hash ile karşılaştırma
+
+        if (!isMatch) {
+            return res.render('login', { error: "Şifre hatalı!" });
+        }
+
+        req.session.user_id = user.user_id;
+        req.session.username = user.user_name;
+
+        res.redirect('/'); // ✅ Giriş başarılıysa ana sayfaya yönlendir
+    });
 });
 
-// Favori listesi (örnek)
-app.get('/favoriler', (req, res) => {
-    res.render('favorites'); // views/favorites.ejs olmalı
+app.get('/register', (req, res) => {
+    res.render('register' , { userId: req.session.user_id || null } ); // views/register.ejs olmalı
 });
+
+app.post('/register', async (req, res) => {
+     console.log(req.body);
+    const { username, email, password } = req.body;
+
+    // Kullanıcı adı, e-posta ve şifre kontrolü
+    if (!username || !email || !password) {
+        return res.render('register', { error: "Tüm alanları doldurmalısınız!" });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10); 
+
+        const query = "INSERT INTO users (user_name, user_email, user_password) VALUES (?, ?, ?)";
+        
+        db.query(query, [username, email, hashedPassword], (err) => {
+            if (err) {
+                console.error("Kayıt hatası:", err);
+                return res.render('register', { error: "Bu e-posta zaten kullanımda!" });
+            }
+
+            res.redirect('/login'); // ✅ Kayıt başarılıysa login sayfasına yönlendir
+        });
+
+    } catch (error) {
+        console.error("Hashleme hatası:", error);
+        res.render('register', { error: "Bir hata oluştu, tekrar deneyin!" });
+    }
+});
+
+
+
 
 app.listen(PORT, () => {
     console.log(`✅ Server running at http://localhost:${PORT}`);

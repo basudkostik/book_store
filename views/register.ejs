@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kayıt Ol</title>
+    <link rel="stylesheet" href="/styles/login_style.css"> <!-- Aynı stil dosyası kullanılıyor -->
+</head>
+<body>
+
+    <% if (userId) { %>
+        <script>window.location.href = "/login";</script>
+    <% } %>
+
+    <div class="login-box">
+        <h2>Kayıt Ol</h2>
+
+        <% if (typeof error !== 'undefined') { %>
+            <div class="error"><%= error %></div>
+        <% } %>
+
+        <form method="POST" action="/register">
+    <input type="text" name="username" placeholder="Kullanıcı Adı" required>
+     
+    <input type="email" name="email" placeholder="E-posta" required>
+    <input type="password" name="password" placeholder="Şifre" required>
+    <button type="submit">Kayıt Ol</button>
+</form>
+
+        <p>Zaten hesabın var mı? <a href="/login">Buradan giriş yap</a></p>
+        <p> <a href="/">Ana sayfaya dön</a></p>
+    </div>
+
+</body>
+</html>

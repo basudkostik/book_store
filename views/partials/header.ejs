@@ -6,10 +6,13 @@
   <title>Kitap Mağazası</title>
   <link rel="stylesheet" href="/styles/style.css" />
   <link rel="stylesheet" href="/styles/book_style.css" />
+
   <!-- Üst bar -->
     <header class="top-bar">
         <div class="logo">
-            <img src="/images/logo.jpg" alt="Logo" height="50" />
+           <a href="/">
+        <img src="/images/logo.jpg" alt="Logo" height="50" />
+    </a>
         </div>
         <div class="search-bar">
             <form action="/books" method="GET" onsubmit="return searchRedirect(event)">
@@ -18,11 +21,17 @@
             </form>
         </div>
 
-        <div class="top-links">
-            <a href="/favoriler">🤍 Favori Listem</a>
-            <a href="/sepet">🛒 Sepetim</a>
-            <a href="/login">👤 Giriş Yap</a>
-        </div>
+       <div class="top-links">
+    <a href="/favorites">🤍 Favori Listem</a>
+    <a href="/cart">🛒 Sepetim</a>
+
+    <% if (userId) { %>
+        <span>👋 Merhaba, <%= username %>!</span>
+        <a href="/logout">Çıkış Yap</a>
+    <% } else { %>
+        <a href="/login" onclick="openLoginModal()">👤 Giriş Yap</a>
+    <% } %>
+</div>
     </header>
 
     <nav class="categories">

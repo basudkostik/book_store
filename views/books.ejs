@@ -1,6 +1,6 @@
 
 <%- include('partials/header') %>
-
+<%- include('partials/login-modal') %>
 <div class="container">
  
         <!-- Sol Taraf: Kategori Filtreleri -->
@@ -8,9 +8,12 @@
     <h2>Filtreler</h2>
  
     <form action="/books" method="GET">
-     <input type="hidden" name="q" value="<%= searchTerm %>">
 
-        <!-- Tür seçimi -->
+        <!-- Kitap Adı -->
+    <label for="book_name">Kitap Adı</label>
+     <input type="text" name="q" value="<%= searchTerm %>">
+
+        <!-- Tür seçimi --> 
         <label for="genre">Tür:</label>
         <select name="genre" id="genre">
     <option value="">Tüm Türler</option>
@@ -43,7 +46,8 @@
 
         <button type="submit">Filtrele</button>
     </form>
-</aside>
+       </aside>
+
         <!-- Sağ Taraf: Kitap Listesi -->
         <div class="book-list">
         <% books.forEach(book => { %>
@@ -51,7 +55,7 @@
             <img src="/images/default_book.png" alt="<%= book.book_name %>">
             
             <p class="book-title"><%= book.book_name %> <strong><%= book.author %></strong></p>
-            <p class="book-price"><%= book.price %> TL</p>
+            <p class="book-price"><%= book.price  %> TL</p>
             <p class="book-genre"><%= book.genre %></p>
             <button class="btn-shadow" onclick="addToCart('<%= book.id %>')">Sepete Ekle</button>
             <button class="btn-shadow" onclick="addToFavorites('<%= book.id %>')">Favorilere Ekle</button>
@@ -59,5 +63,7 @@
         <% }) %>
 </div>
     </div>
-
+<script>
+  const currentUserId = "<%= userId %>";
+</script>
 <%- include('partials/footer') %>
