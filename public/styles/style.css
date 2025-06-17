@@ -33,7 +33,7 @@ body {
   color: white;
   text-decoration: none;
   font-weight: bold;
-  margin-right: 30px;  /* Bağlantılar arasındaki boşluk */
+  margin-right: 30px;  
 }
 
 .campaign {
@@ -79,6 +79,30 @@ button {
     cursor: pointer;
 }
 
+
+
 button:hover {
     background: #0056b3;
 }
+
+
+
+
+
+.btn-shadow {
+  background-color: #ff5722; /* Turuncu */
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  display: block; /* Varsayılan inline özellikleri kaldır */
+  margin: 10px auto; /* Üst-alt boşluk vererek tam ortala */
+}
+
+.btn-shadow:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);  
+  transform: translateY(-2px);  }

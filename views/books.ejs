@@ -45,14 +45,19 @@
     </form>
 </aside>
         <!-- Sağ Taraf: Kitap Listesi -->
-        <main class="books-list">
-            <h1>Kitap Listesi</h1>
-            <ol>
-                <% books.forEach(book => { %>
-                    <li><%= book.book_name %> - <%= book.author %> - ₺<%= book.price %></li>
-                <% }); %>
-                </ol>
-        </main>
+        <div class="book-list">
+        <% books.forEach(book => { %>
+        <div class="book-card">
+            <img src="/images/default_book.png" alt="<%= book.book_name %>">
+            
+            <p class="book-title"><%= book.book_name %> <strong><%= book.author %></strong></p>
+            <p class="book-price"><%= book.price %> TL</p>
+            <p class="book-genre"><%= book.genre %></p>
+            <button class="btn-shadow" onclick="addToCart('<%= book.id %>')">Sepete Ekle</button>
+            <button class="btn-shadow" onclick="addToFavorites('<%= book.id %>')">Favorilere Ekle</button>
+        </div>
+        <% }) %>
+</div>
     </div>
 
 <%- include('partials/footer') %>
