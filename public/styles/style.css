@@ -12,11 +12,32 @@ body {
   background-color: #fff;
   border-bottom: 1px solid #ddd;
 }
-
-.search-bar input {
-  padding: 5px ;
+.search-bar {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 2rem;
 }
 
+.search-bar form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.search-bar button {
+    padding: 0.5rem 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 .top-links a {
   margin-left: 15px;
   text-decoration: none;
@@ -47,6 +68,23 @@ body {
 }
 
 
+.custom-btn-top {
+  display:  flex;
+    background-color: #FF5733; /* Butonu belirgin bir renkte yap */
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.custom-btn-top:hover {
+    background-color: #C70039; /* Hover efekti ekle */
+}
+
 
 
 
@@ -57,12 +95,7 @@ body {
     display: flex;
 }
 
-.sidebar {
-    width: 250px;
-    padding: 20px;
-    background: #f4f4f4;
-    border-right: 2px solid #ddd;
-}
+
 
 .books-list {
     flex-grow: 1;
@@ -87,8 +120,6 @@ button:hover {
 
 
 
-
-
 .btn-shadow {
   background-color: #ff5722; /* Turuncu */
   color: white;
@@ -106,3 +137,6 @@ button:hover {
 .btn-shadow:hover {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);  
   transform: translateY(-2px);  }
+
+
+  

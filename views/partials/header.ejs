@@ -5,41 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kitap Mağazası</title>
   <link rel="stylesheet" href="/styles/style.css" />
-  <link rel="stylesheet" href="/styles/book_style.css" />
+<link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
 
   <!-- Üst bar -->
     <header class="top-bar">
         <div class="logo">
            <a href="/">
-        <img src="/images/logo.jpg" alt="Logo" height="50" />
-    </a>
+        <img src="/images/logo.jpg" alt="Logo" height="75"  width="75" />
+        </a>
         </div>
         <div class="search-bar">
             <form action="/books" method="GET" onsubmit="return searchRedirect(event)">
-                <input type="text" id="searchInput" name="q" placeholder="Kitap ara..." value="<%= searchTerm %>" />
-                <button type="submit">ARA</button>
+                <input type="text" id="searchInput" name="q" placeholder="Kitap ara..." value="<%= searchTerm %>"  />
+                <button type="submit" class="custom-btn-top">ARA</button>
             </form>
         </div>
 
-       <div class="top-links">
+              <div class="top-links">
+                 <div class="categories-dropdown">
+                    <button class="categories-btn">Kategoriler <i class="fas fa-chevron-down"></i></button>
+                    <div class="categories-content">
+                        <a href="/books?category=books">📚 Kitap</a>
+                        <a href="/books?category=hobby">🎨 Hobi</a>
+                        <a href="/books?category=toy">🧸 Oyuncak</a>
+                        <a href="/books?category=office">💼 Ofis</a>
+                        <a href="/books?category=stationery">✏️ Kırtasiye</a>
+                        <a href="/books?category=gift">🎁 Hediye Kartı</a>
+                    </div>
+                </div>
     <a href="/favorites">🤍 Favori Listem</a>
     <a href="/cart">🛒 Sepetim</a>
 
     <% if (userId) { %>
-        <span>👋 Merhaba, <%= username %>!</span>
-        <a href="/logout">Çıkış Yap</a>
-    <% } else { %>
-        <a href="/login" onclick="openLoginModal()">👤 Giriş Yap</a>
-    <% } %>
+    <span>👋 Merhaba, <%= username %>!</span>
+    <a href="#" onclick="logoutUser()">Çıkış Yap</a> <!-- 🔥 Sayfayı yenileyerek çıkışı sağla -->
+<% } else { %>
+    <a href="/login"  >👤 Giriş Yap</a>
+    <a href="/register">📝 Kayıt Ol</a>
+<% } %>
 </div>
     </header>
 
-    <nav class="categories">
-        <a href="/books">KİTAP </a>
-        <a href="#">HOBİ, OYUNCAK</a>
-        <a href="#">OFİS, KIRTASİYE</a>
-        <a href="#">HEDİYE KARTI</a>
-    </nav>
+     
     
 </head>
 

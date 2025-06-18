@@ -199,7 +199,8 @@ app.delete('/favorites/delete/:id', (req, res) => {
 
 // Giriş yap sayfası (örnek)
 app.get('/login', (req, res) => {
-    res.render('login'); // views/login.ejs olmalı
+    res.render('login' , {searchTerm : '' ,username: req.session.username || null,
+            userId: req.session.user_id || null});  
 });
 
 app.post('/login', async (req, res) => {
@@ -233,7 +234,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('register' , { userId: req.session.user_id || null } ); // views/register.ejs olmalı
+    res.render('register' , { userId: req.session.user_id || null , searchTerm : ''} ); // views/register.ejs olmalı
 });
 
 app.post('/register', async (req, res) => {
@@ -261,12 +262,16 @@ app.post('/register', async (req, res) => {
 
     } catch (error) {
         console.error("Hashleme hatası:", error);
-        res.render('register', { error: "Bir hata oluştu, tekrar deneyin!" });
+        res.render('register', { error: "Bir hata oluştu, tekrar deneyin!"  });
     }
 });
 
 
-
+app.post('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.json({ success: true }); // 🔥 Başarı mesajı döndür
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`✅ Server running at http://localhost:${PORT}`);

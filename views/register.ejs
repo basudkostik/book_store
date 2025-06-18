@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <title>Kayıt Ol</title>
-    <link rel="stylesheet" href="/styles/login_style.css"> <!-- Aynı stil dosyası kullanılıyor -->
-</head>
-<body>
+
+
+<%- include('partials/header') %>
 
     <% if (userId) { %>
         <script>window.location.href = "/login";</script>
@@ -30,5 +25,4 @@
         <p> <a href="/">Ana sayfaya dön</a></p>
     </div>
 
-</body>
-</html>
+<%- include('partials/footer') %>

@@ -2,22 +2,36 @@
 
 <h1>Sepetim</h1>
 
-    <% if (books.length === 0) { %>
-        <p>Sepetinizde kitap bulunmamaktadır.</p>
-    <% } else { %>
+ <% let totalPrice = books.reduce((sum, book) => sum + parseFloat(book.price), 0); %>
+
+<% if (books.length === 0) { %>
+    <p>Sepetinizde kitap bulunmamaktadır.</p>
+<% } else { %>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Sepet Özeti</h2>
+           <h3>Toplam: <%= totalPrice.toFixed(2) %> TL</h3>
+            <form action="/checkout" method="POST">
+                <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
+                <button type="submit" class="purchase-btn">💳 Satın Al</button>
+            </form>
+        </aside>
+
+        <!-- Kitap Listesi -->
         <div class="book-list">
             <% books.forEach(book => { %>
                 <div class="book-card">
                     <img src="/images/default_book.png" alt="<%= book.book_name %>">
-                    
                     <p class="book-title"><%= book.book_name %> <strong><%= book.author %></strong></p>
                     <p class="book-price"><%= book.price %> TL</p>
                     <p class="book-genre"><%= book.genre %></p>
-                     <button class="delete-button" onclick="deleteBook('<%= book.id %>', 'cart')">Sepetten Sil</button>
+                    <% totalPrice += parseFloat(book.price); %> 
+                    <button class="delete-button" onclick="deleteBook('<%= book.id %>', 'cart')">Sepetten Sil</button>
                 </div>
             <% }) %>
         </div>
-    <% } %>
-
+    </div>
+<% } %>
 
 <%- include('partials/footer') %>

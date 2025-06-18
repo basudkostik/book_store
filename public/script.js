@@ -64,6 +64,15 @@ function deleteBook(bookId, type) {
 }
 
 
+function logoutUser() {
+    fetch('/logout', { method: 'POST' }) // Opsiyonel: Sunucuya logout isteği gönder
+        .then(() => {
+            sessionStorage.clear(); // 🔥 Tarayıcıda oturum verilerini temizle
+            location.reload(); // 🔄 Sayfayı yenile ve logout işlemini tamamla
+        })
+        .catch(error => console.error("Çıkış hatası:", error));
+}
+
  
 
 function openLoginModal() {
