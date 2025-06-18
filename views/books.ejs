@@ -16,25 +16,24 @@
         <!-- Tür seçimi --> 
         <label for="genre">Tür:</label>
         <select name="genre" id="genre">
-    <option value="">Tüm Türler</option>
-    <option value="Fiction" <%= genre === 'Fiction' ? 'selected' : '' %>>Kurgu</option>
-    <option value="Fantasy" <%= genre === 'Fantasy' ? 'selected' : '' %>>Fantastik</option>
-    <option value="Dystopian" <%= genre === 'Dystopian' ? 'selected' : '' %>>Distopya</option>
-    <option value="Adventure" <%= genre === 'Adventure' ? 'selected' : '' %>>Macera</option>
-    <option value="Historical Fiction" <%= genre === 'Historical Fiction' ? 'selected' : '' %>>Tarihi Kurgu</option>
-    <option value="Romance" <%= genre === 'Romance' ? 'selected' : '' %>>Romantik</option>
-    <option value="Philosophical" <%= genre === 'Philosophical' ? 'selected' : '' %>>Felsefi</option>
-    <option value="Psychological Thriller" <%= genre === 'Psychological Thriller' ? 'selected' : '' %>>Psikolojik Gerilim</option>
-    <option value="Horror" <%= genre === 'Horror' ? 'selected' : '' %>>Korku</option>
-    <option value="Crime Fiction" <%= genre === 'Crime Fiction' ? 'selected' : '' %>>Suç Kurgu</option>
-    <option value="Psychological Fiction" <%= genre === 'Psychological Fiction' ? 'selected' : '' %>>Psikolojik Kurgu</option>
-    <option value="Young Adult" <%= genre === 'Young Adult' ? 'selected' : '' %>>Genç Yetişkin</option>
-    <option value="Biography" <%= genre === 'Biography' ? 'selected' : '' %>>Biyografi</option>
-    <option value="Memoir" <%= genre === 'Memoir' ? 'selected' : '' %>>Anı</option>
-    <option value="Self-help" <%= genre === 'Self-help' ? 'selected' : '' %>>Kişisel Gelişim</option>
-    <option value="Non-fiction" <%= genre === 'Non-fiction' ? 'selected' : '' %>>Kurgu Dışı</option>
-    <option value="Science Fiction" <%= genre === 'Science Fiction' ? 'selected' : '' %>>Bilim Kurgu</option>
-    <option value="Epic" <%= genre === 'Epic' ? 'selected' : '' %>>Destan</option>
+            <option value="">Tüm Türler</option>
+            <option value="Thriller" <%= genre === 'Thriller' ? 'selected' : '' %>>🔪 Gerilim</option>
+            <option value="Self-Help" <%= genre === 'Self-Help' ? 'selected' : '' %>>📘 Kişisel Gelişim</option>
+            <option value="Science Fiction" <%= genre === 'Science Fiction' ? 'selected' : '' %>>👽 Bilim Kurgu</option>
+            <option value="Science" <%= genre === 'Science' ? 'selected' : '' %>>🔬 Bilim</option>
+            <option value="Romance" <%= genre === 'Romance' ? 'selected' : '' %>>❤️ Romantik</option>
+            <option value="Psychology" <%= genre === 'Psychology' ? 'selected' : '' %>>🧠 Psikoloji</option>
+            <option value="Mythology" <%= genre === 'Mythology' ? 'selected' : '' %>>⚡ Mitoloji</option>
+            <option value="Mystery" <%= genre === 'Mystery' ? 'selected' : '' %>>🕵️ Gizem</option>
+            <option value="Horror" <%= genre === 'Horror' ? 'selected' : '' %>>👻 Korku</option>
+            <option value="History" <%= genre === 'History' ? 'selected' : '' %>>🏺 Tarih</option>
+            <option value="Historical Fiction" <%= genre === 'Historical Fiction' ? 'selected' : '' %>>📜 Tarihi Kurgu</option>
+            <option value="Fiction" <%= genre === 'Fiction' ? 'selected' : '' %>>📖 Kurgu</option>
+            <option value="Fantasy" <%= genre === 'Fantasy' ? 'selected' : '' %>>🐉 Fantastik</option>
+            <option value="Dystopian" <%= genre === 'Dystopian' ? 'selected' : '' %>>🌆 Distopya</option>
+            <option value="Classic" <%= genre === 'Classic' ? 'selected' : '' %>>🏛️ Klasik</option>
+            <option value="Biography" <%= genre === 'Biography' ? 'selected' : '' %>>👤 Biyografi</option>
+            <option value="Adventure" <%= genre === 'Adventure' ? 'selected' : '' %>>🧭 Macera</option>
         </select>
 
         <!-- Fiyat aralığı -->
@@ -43,6 +42,35 @@
 
         <label for="maxPrice">Max Fiyat:</label>
         <input type="number" name="maxPrice" id="maxPrice" min="0" value="<%= maxPrice %>">
+        <!-- Yayınevi -->
+
+        <!-- Yazar -->
+        <label for="author">Yazar:</label>
+        <input type="text" name="author" id="author" value="<%= author %>">
+
+            <!-- Yayın Yılı -->
+            <label for="minYear">Yayın Yılı (Min):</label>
+            <input type="number" name="minYear" id="minYear" value="<%= minYear %>" min="1900" max="2025">
+
+            <label for="maxYear">Yayın Yılı (Max):</label>
+            <input type="number" name="maxYear" id="maxYear" value="<%= maxYear %>" min="1900" max="2025">
+
+           
+           
+
+            <!-- Sayfa Sayısı -->
+                    <label for="minPages">Min Sayfa:</label>
+                    <input type="number" name="minPages" id="minPages" min="0" value="<%= minPages %>">
+
+                    <label for="maxPages">Max Sayfa:</label>
+                    <input type="number" name="maxPages" id="maxPages" min="0" value="<%= maxPages %>">
+
+                    <!-- Puan -->
+                    <label for="minRating">Min Puan:</label>
+                    <input type="number" step="0.1" name="minRating" id="minRating" min="0" max="5" value="<%= minRating %>">
+
+                    <label for="maxRating">Max Puan:</label>
+                    <input type="number" step="0.1" name="maxRating" id="maxRating" min="0" max="5" value="<%= maxRating %>">
 
         <button type="submit">Filtrele</button>
     </form>
@@ -66,4 +94,4 @@
 <script>
   const currentUserId = "<%= userId %>";
 </script>
-<%- include('partials/footer') %>
+<%- include('partials/footer2') %>

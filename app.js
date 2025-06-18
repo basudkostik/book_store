@@ -29,9 +29,11 @@ app.get('/', (req, res) => {
 
 app.get("/books", (req, res) => {
     let query = "SELECT * FROM books WHERE 1=1"; 
+
+    
     let params = [];
 
-    const { genre, minPrice, maxPrice, q } = req.query;
+   const { genre, author , language, minPrice, maxPrice, minPages, maxPages, minRating, maxRating, minYear, maxYear, q } = req.query;
 
     if (genre) {
         query += " AND genre = ?";
@@ -53,6 +55,47 @@ app.get("/books", (req, res) => {
         params.push(`%${q}%`, `%${q}%`); // İki tane LIKE araması için 2 parametre
     }
 
+
+    if (language) {
+        query += " AND language = ?";
+        params.push(language);
+    }
+
+    if (minPages) {
+        query += " AND pages >= ?";
+        params.push(minPages);
+    }
+
+    if (maxPages) {
+        query += " AND pages <= ?";
+        params.push(maxPages);
+    }
+
+    if (minRating) {
+        query += " AND rating >= ?";
+        params.push(minRating);
+    }
+
+    if (maxRating) {
+        query += " AND rating <= ?";
+        params.push(maxRating);
+    }
+
+    if (minYear) {
+        query += " AND published_year >= ?";
+        params.push(minYear);
+    }
+
+    if (maxYear) {
+        query += " AND published_year <= ?";
+        params.push(maxYear);
+    }
+
+    if(author) {
+        query += " AND author = ?";
+        params.push(author);
+    }
+
     db.query(query, params, (err, results) => {
         if (err) {
             console.error(err);
@@ -60,10 +103,18 @@ app.get("/books", (req, res) => {
         } else {
             res.render("books", {
                 books: results,
-                searchTerm: q || '', // input kutusunda görünsün
+                author: author || null,
+                searchTerm: q || '',
                 genre: genre || '',
                 minPrice: minPrice || '',
-                maxPrice: maxPrice || '',
+                maxPrice: maxPrice || null,
+                language: language || '',
+                minPages: minPages || '',
+                maxPages: maxPages || '',
+                minRating: minRating || '',
+                maxRating: maxRating || '',
+                minYear: minYear || '',
+                maxYear: maxYear || '',
                 userId: req.session.user_id || null,
                 username: req.session.username || null
             });
