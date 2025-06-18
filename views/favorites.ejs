@@ -8,7 +8,7 @@
         <div class="book-list">
             <% books.forEach(book => { %>
                 <div class="book-card">
-                    <img src="/images/default_book.png" alt="<%= book.book_name %>">
+                    <img src="/images/book_images/<%= book.id %>.png" alt="<%= book.book_name %>">
                     
                     <p class="book-title"><%= book.book_name %> <strong><%= book.author %></strong></p>
                     <p class="book-price"><%= book.price %> TL</p>

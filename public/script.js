@@ -1,6 +1,4 @@
 
-
-
 function addToCart(bookId) {
 
     if (!currentUserId) {
@@ -75,16 +73,26 @@ function logoutUser() {
 
  
 
-function openLoginModal() {
-    const modal = document.getElementById("loginModal");
+function openCheckoutModal() {
+    const modal = document.getElementById("checkout-modal");
     if (modal) {
-        modal.style.display = "flex";
+        modal.style.display = "block";
     } else {
-        console.warn("Modal bulunamadı!");
+        console.warn("Checkout modal bulunamadı.");
     }
 }
 
-
-function closeLoginModal() {
-    document.getElementById("loginModal").style.display = "none";
+function closeCheckoutModal() {
+    const modal = document.getElementById("checkout-modal");
+    if (modal) {
+        modal.style.display = "none";
+    }
 }
+
+// Modal dışında tıklanınca kapat
+window.addEventListener("click", function (event) {
+    const modal = document.getElementById("checkout-modal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});

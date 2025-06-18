@@ -1,6 +1,10 @@
    <%- include('partials/header') %>
 
-      
+  <% if (query.success === '1') { %>
+  <script>
+    alert("Ödeme başarılı! Sepetiniz temizlendi.");
+  </script>
+<% } %>
 
 <section class="campaign">
   <div class="category-grid-custom">
@@ -77,6 +81,8 @@
       <p>Macera</p>
     </a>
   </div>
+
+
 </section>
 
 

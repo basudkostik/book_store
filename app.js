@@ -23,7 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.render('index', { searchTerm: '' , 
         userId : req.session.user_id || null  , 
-        username: req.session.username || null });  
+        username: req.session.username || null ,
+        query : req.query  });  
 });
 
 
@@ -248,7 +249,7 @@ app.delete('/favorites/delete/:id', (req, res) => {
 });
 
 
-// Giriş yap sayfası (örnek)
+
 app.get('/login', (req, res) => {
     res.render('login' , {searchTerm : '' ,username: req.session.username || null,
             userId: req.session.user_id || null});  
@@ -268,6 +269,7 @@ app.post('/login', async (req, res) => {
             return res.render('login', { error: "Kullanıcı bulunamadı!" });
         }
 
+        console.log("Oturum bilgileri:", req.session); 
         const user = results[0];
 
         // Şifre karşılaştırma
@@ -280,12 +282,15 @@ app.post('/login', async (req, res) => {
         req.session.user_id = user.user_id;
         req.session.username = user.user_name;
 
-        res.redirect('/'); // ✅ Giriş başarılıysa ana sayfaya yönlendir
+        console.log("Giriş yapan kullanıcı:", user.user_name);
+        console.log("Oturum bilgileri:", user.user_id);
+
+        res.redirect('/');  
     });
 });
 
 app.get('/register', (req, res) => {
-    res.render('register' , { userId: req.session.user_id || null , searchTerm : ''} ); // views/register.ejs olmalı
+    res.render('register' , { userId: req.session.user_id || null , searchTerm : ''} ); 
 });
 
 app.post('/register', async (req, res) => {
@@ -322,6 +327,25 @@ app.post('/logout', (req, res) => {
     req.session.destroy(() => {
         res.json({ success: true }); // 🔥 Başarı mesajı döndür
     });
+});
+
+
+app.post('/checkout', async (req, res) => {
+  const { totalPrice, cardNumber, expiry, cvv } = req.body;
+  const userId = req.session.user_id; 
+
+  
+  if (!cardNumber || !expiry || !cvv) {
+    return res.status(400).send("Kart bilgileri eksik.");
+  }
+  try {
+    console.log("Kullanıcı ID:", userId);
+   await db.promise().query('DELETE FROM cart WHERE user_id = ?', [userId]);
+   res.redirect('/?success=1');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Ödeme sırasında bir hata oluştu.");
+  }
 });
 
 app.listen(PORT, () => {

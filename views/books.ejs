@@ -78,18 +78,18 @@
 
         <!-- Sağ Taraf: Kitap Listesi -->
         <div class="book-list">
-        <% books.forEach(book => { %>
-        <div class="book-card">
-            <img src="/images/default_book.png" alt="<%= book.book_name %>">
+            <% books.forEach(book => { %>
+            <div class="book-card">
+                <img src="/images/book_images/<%= book.id %>.png" alt="<%= book.book_name %>">
             
-            <p class="book-title"><%= book.book_name %> <strong><%= book.author %></strong></p>
-            <p class="book-price"><%= book.price  %> TL</p>
-            <p class="book-genre"><%= book.genre %></p>
-            <button class="btn-shadow" onclick="addToCart('<%= book.id %>')">Sepete Ekle</button>
-            <button class="btn-shadow" onclick="addToFavorites('<%= book.id %>')">Favorilere Ekle</button>
-        </div>
+                <p class="book-title"><%= book.book_name %> <strong><%= book.author %></strong></p>
+                <p class="book-price"><%= book.price  %> TL</p>
+                <p class="book-genre"><%= book.genre %></p>
+                <button class="btn-shadow" onclick="addToCart('<%= book.id %>')">Sepete Ekle</button>
+                <button class="btn-shadow" onclick="addToFavorites('<%= book.id %>')">Favorilere Ekle</button>
+            </div>
         <% }) %>
-</div>
+        </div>
     </div>
 <script>
   const currentUserId = "<%= userId %>";

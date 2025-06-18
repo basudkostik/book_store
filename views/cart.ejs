@@ -14,7 +14,7 @@
            <h3>Toplam: <%= totalPrice.toFixed(2) %> TL</h3>
             <form action="/checkout" method="POST">
                 <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
-                <button type="submit" class="purchase-btn">💳 Satın Al</button>
+                <button type="button" class="purchase-btn" onclick="openCheckoutModal()">💳 Satın Al</button>
             </form>
         </aside>
 
@@ -22,11 +22,10 @@
         <div class="book-list">
             <% books.forEach(book => { %>
                 <div class="book-card">
-                    <img src="/images/default_book.png" alt="<%= book.book_name %>">
+                    <img src="/images/book_images/<%= book.id %>.png" alt="<%= book.book_name %>">
                     <p class="book-title"><%= book.book_name %> <strong><%= book.author %></strong></p>
                     <p class="book-price"><%= book.price %> TL</p>
                     <p class="book-genre"><%= book.genre %></p>
-                    <% totalPrice += parseFloat(book.price); %> 
                     <button class="delete-button" onclick="deleteBook('<%= book.id %>', 'cart')">Sepetten Sil</button>
                 </div>
             <% }) %>
@@ -35,3 +34,26 @@
 <% } %>
 
 <%- include('partials/footer') %>
+
+<div id="checkout-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCheckoutModal()">&times;</span>
+    <h2>Ödeme Bilgileri</h2>
+    <p>Toplam: <%= totalPrice.toFixed(2) %> TL</p>
+    
+    <form action="/checkout" method="POST">
+      <input type="hidden" name="totalPrice" value="<%= totalPrice %>">
+
+      <label for="cardNumber">Kart Numarası</label>
+      <input type="text" id="cardNumber" name="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456" required>
+
+      <label for="expiry">Son Kullanma Tarihi</label>
+      <input type="text" id="expiry" name="expiry" placeholder="AA/YY" maxlength="5" required>
+
+      <label for="cvv">CVV</label>
+      <input type="text" id="cvv" name="cvv" maxlength="4" placeholder="123" required>
+
+      <button type="submit" class="confirm-btn">💳 Satın Al</button>
+    </form>
+  </div>
+</div>
